@@ -9,7 +9,7 @@ set('git_tty', true);
 set('bin_dir', 'bin');
 set('http_user', 'glutenfr');
 set('writable_mode', 'chmod');
-
+set('default_stage', 'production');
 add('shared_files', ['.env']);
 add('shared_dirs', ['var']);
 add('writable_dirs', []);
@@ -22,7 +22,7 @@ host('data.ivanstanojevic.me')
 
 task('test', function () {
     set('symfony_env', 'dev');
-    runLocally('bin/phpunit');
+//    runLocally('bin/phpunit');
 });
 
 task('dump-autoload', function () {
