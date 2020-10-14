@@ -33,14 +33,14 @@ class MailNotificationSubscriber implements EventSubscriberInterface
         $submission = $event->getSubmission();
         $data = $submission->getData();
 
-        foreach ($submission->getForm()->getEmail() as $email) {
+        foreach ($submission->getApplication()->getEmail() as $email) {
             $email = (new Email())
                 ->from('hello@example.com')
                 ->to($email)
                 //->cc('cc@example.com')
                 //->bcc('bcc@example.com')
                 //->priority(Email::PRIORITY_HIGH)
-                ->subject(\sprintf('New form submission for %s', $submission->getForm()->getName()))
+                ->subject(\sprintf('New application submission for %s', $submission->getApplication()->getName()))
                 ->html($this->twig->render(self::TEMPLATE, ['submission' => $submission]));
 
             if (isset($data['_replyTo']) && filter_var($data['_replyTo'], FILTER_VALIDATE_EMAIL)) {

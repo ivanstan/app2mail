@@ -2,13 +2,13 @@
 
 namespace App\Entity;
 
-use App\Repository\FormRepository;
+use App\Repository\ApplicationRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass=FormRepository::class)
  */
-class Form
+class Application
 {
     /**
      * @ORM\Id
@@ -26,11 +26,6 @@ class Form
      * @ORM\Column(type="string", length=255)
      */
     private $name;
-
-    /**
-     * @ORM\Column(type="simple_array")
-     */
-    private $referer = [];
 
     public function setUuid($uuid): void
     {
@@ -62,18 +57,6 @@ class Form
     public function setName(string $name): self
     {
         $this->name = $name;
-
-        return $this;
-    }
-
-    public function getReferer(): ?array
-    {
-        return $this->referer;
-    }
-
-    public function setReferer(array $referer): self
-    {
-        $this->referer = $referer;
 
         return $this;
     }

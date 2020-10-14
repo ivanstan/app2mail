@@ -16,23 +16,23 @@ class Submission
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private ?int $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Form::class)
+     * @ORM\ManyToOne(targetEntity=Application::class)
      * @ORM\JoinColumn(nullable=false, referencedColumnName="uuid")
      */
-    private $form;
+    private Application $application;
 
     /**
      * @ORM\Column(type="integer")
      */
-    private $created;
+    private ?int $created;
 
     /**
      * @ORM\Column(type="json", nullable=true)
      */
-    private $data = [];
+    private array $data = [];
 
     /**
      * @ORM\PrePersist()
@@ -47,14 +47,14 @@ class Submission
         return $this->id;
     }
 
-    public function getForm(): Form
+    public function getApplication(): Application
     {
-        return $this->form;
+        return $this->application;
     }
 
-    public function setForm(?Form $form): self
+    public function setApplication(Application $application): self
     {
-        $this->form = $form;
+        $this->application = $application;
 
         return $this;
     }
@@ -76,7 +76,7 @@ class Submission
         return $this->data;
     }
 
-    public function setData(?array $data): self
+    public function setData(array $data): self
     {
         $this->data = $data;
 

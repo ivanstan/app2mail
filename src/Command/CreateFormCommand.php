@@ -2,7 +2,7 @@
 
 namespace App\Command;
 
-use App\Entity\Form;
+use App\Entity\Application;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -11,7 +11,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 
 class CreateFormCommand extends Command
 {
-    protected static $defaultName = 'form:create';
+    protected static $defaultName = 'application:create';
 
     protected EntityManagerInterface $em;
 
@@ -25,23 +25,23 @@ class CreateFormCommand extends Command
     protected function configure()
     {
         $this
-            ->setDescription('Creates new form');
+            ->setDescription('Creates new application');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
 
-        $name = $io->ask('Form name');
-        $email = $io->ask('Enter email to send submission results to');
+        $name = $io->ask('Application name');
+        $email = $io->ask('Enter email to send submissions to');
 
-        $form = new Form();
-        $form->setEmail([$email]);
-        $form->setName($name);
-        $this->em->persist($form);
+        $application = new Application();
+        $application->setEmail([$email]);
+        $application->setName($name);
+        $this->em->persist($application);
         $this->em->flush();
 
-        $io->success(sprintf('Created new form [UUID: %s]', $form->getUuid()));
+        $io->success(sprintf('New application created [UUID: %s]', $application->getUuid()));
 
         return Command::SUCCESS;
     }

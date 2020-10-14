@@ -4,7 +4,7 @@ namespace Deployer;
 
 require 'recipe/symfony.php';
 
-set('repository', 'https://github.com/ivanstan/form2mail');
+set('repository', 'https://github.com/ivanstan/app2mail');
 set('git_tty', true);
 set('bin_dir', 'bin');
 set('http_user', 'glutenfr');
@@ -18,7 +18,7 @@ host('data.ivanstanojevic.me')
     ->user('glutenfr')
     ->port(2233)
     ->stage('production')
-    ->set('deploy_path', '~/projects/form2mail.ivanstanojevic.me');
+    ->set('deploy_path', '~/projects/app2mail.ivanstanojevic.me');
 
 task('test', function () {
     set('symfony_env', 'dev');

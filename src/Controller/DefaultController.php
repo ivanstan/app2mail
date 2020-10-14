@@ -5,7 +5,7 @@ namespace App\Controller;
 use App\Entity\Submission;
 use App\Event\SubmissionEvent;
 use App\EventSubscriber\MailNotificationSubscriber;
-use App\Repository\FormRepository;
+use App\Repository\ApplicationRepository;
 use App\Repository\SubmissionRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -29,20 +29,20 @@ class DefaultController extends AbstractController
     }
 
     /**
-     * Accepts post data from form.
+     * Accepts post data from application.
      * Special post fields:
-     *  _replyTo: will be used as replayTo address in email sent to the address specified in Form::email list
+     *  _replyTo: will be used as replayTo address in email sent to the address specified in Application::email list
      *  _redirect: if specified user will be redirected to it otherwise referer header will be used.
      *             Either specify _redirect or use <meta name="referrer" content="origin">.
      *
-     * @Route("/form/{uuid}", name="form", methods={"POST"})
+     * @Route("/application/{uuid}", name="application", methods={"POST"})
      */
-    public function form(Request $request, string $uuid, FormRepository $repository, EventDispatcherInterface $dispatcher): RedirectResponse
+    public function application(Request $request, string $uuid, ApplicationRepository $repository, EventDispatcherInterface $dispatcher): RedirectResponse
     {
-        $form = $repository->find($uuid);
+        $application = $repository->find($uuid);
 
-        if (!$form) {
-            throw new NotFoundHttpException(\sprintf('Form %s not found.', $uuid));
+        if (!$application) {
+            throw new NotFoundHttpException(\sprintf('Application %s not found.', $uuid));
         }
 
         $data = array_map('trim', $request->request->all());
@@ -51,7 +51,7 @@ class DefaultController extends AbstractController
         unset($data['_redirect']);
 
         $submission = new Submission();
-        $submission->setForm($form);
+        $submission->setApplication($application);
         $submission->setData($data);
 
         $repository->save($submission);
