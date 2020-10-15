@@ -9,7 +9,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
-class CreateFormCommand extends Command
+class ApplicaionCreateCommand extends Command
 {
     protected static $defaultName = 'application:create';
 
