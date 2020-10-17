@@ -6,7 +6,7 @@ use App\Repository\ApplicationRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass=FormRepository::class)
+ * @ORM\Entity(repositoryClass=ApplicationRepository::class)
  */
 class Application
 {

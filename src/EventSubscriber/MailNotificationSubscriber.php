@@ -14,11 +14,13 @@ class MailNotificationSubscriber implements EventSubscriberInterface
 
     protected MailerInterface $mailer;
     protected Environment $twig;
+    protected string $mailFrom;
 
-    public function __construct(MailerInterface $mailer, Environment $twig)
+    public function __construct(MailerInterface $mailer, Environment $twig, $mailFrom)
     {
         $this->mailer = $mailer;
         $this->twig = $twig;
+        $this->mailFrom = $mailFrom;
     }
 
     public static function getSubscribedEvents(): array
@@ -35,12 +37,10 @@ class MailNotificationSubscriber implements EventSubscriberInterface
 
         foreach ($submission->getApplication()->getEmail() as $email) {
             $email = (new Email())
-                ->from('hello@example.com')
+                ->from($this->mailFrom)
                 ->to($email)
-                //->cc('cc@example.com')
-                //->bcc('bcc@example.com')
-                //->priority(Email::PRIORITY_HIGH)
-                ->subject(\sprintf('New application submission for %s', $submission->getApplication()->getName()))
+                ->priority(Email::PRIORITY_HIGH)
+                ->subject(\sprintf('New application submission | %s', $submission->getApplication()->getName()))
                 ->html($this->twig->render(self::TEMPLATE, ['submission' => $submission]));
 
             if (isset($data['_replyTo']) && filter_var($data['_replyTo'], FILTER_VALIDATE_EMAIL)) {
