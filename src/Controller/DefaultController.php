@@ -58,6 +58,9 @@ class DefaultController extends AbstractController
 
         $dispatcher->dispatch(new SubmissionEvent($submission), SubmissionEvent::NAME);
 
-        return $this->redirect($redirect);
+        $response = $this->redirect($redirect);
+        $response->headers->set('Access-Control-Allow-Origin', '*');
+
+        return $response;
     }
 }
