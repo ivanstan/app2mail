@@ -15,17 +15,22 @@ class Application
      * @ORM\Column(type="guid")
      * @ORM\GeneratedValue(strategy="UUID")
      */
-    private $uuid;
+    private string $uuid;
 
     /**
      * @ORM\Column(type="simple_array", nullable=true)
      */
-    private $email = [];
+    private ?array $email = [];
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $name;
+    private string $name;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Recaptcha::class)
+     */
+    private ?Recaptcha $recaptcha;
 
     public function setUuid($uuid): void
     {
@@ -57,6 +62,18 @@ class Application
     public function setName(string $name): self
     {
         $this->name = $name;
+
+        return $this;
+    }
+
+    public function getRecaptcha(): ?Recaptcha
+    {
+        return $this->recaptcha;
+    }
+
+    public function setRecaptcha(?Recaptcha $recaptcha): self
+    {
+        $this->recaptcha = $recaptcha;
 
         return $this;
     }
