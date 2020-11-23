@@ -27,12 +27,20 @@ class Submission
     /**
      * @ORM\Column(type="integer")
      */
-    private ?int $created;
+    private $created;
 
     /**
      * @ORM\Column(type="json", nullable=true)
      */
     private array $data = [];
+
+    /**
+     * @param Application $application
+     */
+    public function __construct(Application $application)
+    {
+        $this->application = $application;
+    }
 
     /**
      * @ORM\PrePersist()

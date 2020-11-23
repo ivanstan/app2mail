@@ -2,11 +2,13 @@
 
 namespace App\Controller;
 
+use App\Entity\Application;
 use App\Entity\Submission;
 use App\Event\SubmissionEvent;
 use App\EventSubscriber\MailNotificationSubscriber;
-use App\Repository\ApplicationRepository;
 use App\Repository\SubmissionRepository;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -36,25 +38,17 @@ class DefaultController extends AbstractController
      *             Either specify _redirect or use <meta name="referrer" content="origin">.
      *
      * @Route("/application/{uuid}", name="application", methods={"POST"})
+     * @Entity("application", expr="repository.find(uuid)")
      */
-    public function application(Request $request, string $uuid, ApplicationRepository $repository, EventDispatcherInterface $dispatcher): RedirectResponse
+    public function application(Request $request, Application $application, EventDispatcherInterface $dispatcher): RedirectResponse
     {
-        $application = $repository->find($uuid);
-
-        if (!$application) {
-            throw new NotFoundHttpException(\sprintf('Application %s not found.', $uuid));
-        }
-
         $data = array_map('trim', $request->request->all());
 
         $redirect = $data['_redirect'] ?? $request->headers->get('referer');
         unset($data['_redirect']);
 
-        $submission = new Submission();
-        $submission->setApplication($application);
+        $submission = new Submission($application);
         $submission->setData($data);
-
-        $repository->save($submission);
 
         $dispatcher->dispatch(new SubmissionEvent($submission), SubmissionEvent::NAME);
 
