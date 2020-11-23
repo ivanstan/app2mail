@@ -1,3 +1,0 @@
-submission:
-  path: /submission/{id}
-  controller: App\Controller\DefaultController::submission
