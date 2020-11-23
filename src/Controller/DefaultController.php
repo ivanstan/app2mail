@@ -42,19 +42,18 @@ class DefaultController extends AbstractController
      */
     public function application(Request $request, Application $application, EventDispatcherInterface $dispatcher): RedirectResponse
     {
-        $data = array_map('trim', $request->request->all());
+        $data = $request->request->all();
 
         $redirect = $data['_redirect'] ?? $request->headers->get('referer');
         unset($data['_redirect']);
 
-        $submission = new Submission($application);
-        $submission->setData($data);
+        $submission = (new Submission($application))
+            ->setData($data);
 
         $dispatcher->dispatch(new SubmissionEvent($submission), SubmissionEvent::NAME);
 
-        $response = $this->redirect($redirect);
-        $response->headers->set('Access-Control-Allow-Origin', '*');
-
-        return $response;
+        return new RedirectResponse($redirect, Response::HTTP_FOUND, [
+            'Access-Control-Allow-Origin' => '*'
+        ]);
     }
 }

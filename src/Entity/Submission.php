@@ -86,7 +86,7 @@ class Submission
 
     public function setData(array $data): self
     {
-        $this->data = $data;
+        $this->data = array_map('trim', $data);
 
         return $this;
     }
