@@ -2,22 +2,11 @@
 
 namespace App\EventSubscriber;
 
-use App\Controller\DefaultController;
-use App\Repository\ApplicationRepository;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
-class RecaptchaRequestSubscriber implements EventSubscriberInterface
+class RecaptchaRequestSubscriber extends ApplicationMiddlewareSubscriber
 {
-    protected ApplicationRepository $repository;
-
-    public function __construct(ApplicationRepository $repository)
-    {
-        $this->repository = $repository;
-    }
-
     public static function getSubscribedEvents(): array
     {
         return [
@@ -29,19 +18,11 @@ class RecaptchaRequestSubscriber implements EventSubscriberInterface
     {
         $request = $event->getRequest();
 
-        if ($request->attributes->get('_controller') !== DefaultController::class . '::application') {
+        if (!$this->isMiddleware($request)) {
             return;
         }
 
-        $uuid = $request->attributes->get('uuid');
-
-        $application = $this->repository->find($uuid);
-
-        if (!$application) {
-            throw new NotFoundHttpException(\sprintf('Application %s not found.', $uuid));
-        }
-
-        $recaptcha = $application->getRecaptcha();
+        $recaptcha = $this->getApplication($request)->getRecaptcha();
 
         if ($recaptcha === null) {
             return;
@@ -53,9 +34,13 @@ class RecaptchaRequestSubscriber implements EventSubscriberInterface
             ->setExpectedHostname($request->headers->get('referer'))
             ->verify($request->request->get('recaptcha'), $request->getClientIp());
 
-        if (!$response->isSuccess()) {
-            $error = $response->getErrorCodes();
-            throw new AccessDeniedHttpException(\sprintf('Recaptcha error occurred during validation: %s', $error[0]));
-        }
+//        if (!$response->isSuccess()) {
+//            $error = $response->getErrorCodes();
+//            $exception = new AccessDeniedHttpException(\sprintf('Recaptcha error occurred during validation: %s', $error[0]));
+//
+//            $this->setJsonResponse($event, $this->throwableToArray($exception));
+//        }
+
+        $request->request->remove('recaptcha');
     }
 }

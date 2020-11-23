@@ -9,7 +9,7 @@ use App\Repository\ApplicationRepository;
 use App\Repository\SubmissionRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -37,8 +37,12 @@ class DefaultController extends AbstractController
      *
      * @Route("/application/{uuid}", name="application", methods={"POST"})
      */
-    public function application(Request $request, string $uuid, ApplicationRepository $repository, EventDispatcherInterface $dispatcher): RedirectResponse
-    {
+    public function application(
+        Request $request,
+        string $uuid,
+        ApplicationRepository $repository,
+        EventDispatcherInterface $dispatcher
+    ): Response {
         $application = $repository->find($uuid);
 
         if (!$application) {
@@ -58,9 +62,19 @@ class DefaultController extends AbstractController
 
         $dispatcher->dispatch(new SubmissionEvent($submission), SubmissionEvent::NAME);
 
-        $response = $this->redirect($redirect);
-        $response->headers->set('Access-Control-Allow-Origin', '*');
+        if (!$request->isXmlHttpRequest()) {
+            $response = $this->redirect($redirect);
+            $response->headers->set('Access-Control-Allow-Origin', '*');
 
-        return $response;
+            return $response;
+        }
+
+        return new JsonResponse(
+            ['message' => 'success'],
+            Response::HTTP_OK,
+            [
+                'Access-Control-Allow-Origin' => '*',
+            ]
+        );
     }
 }
