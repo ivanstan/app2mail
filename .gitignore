@@ -2,3 +2,4 @@
 vendor
 var
 .env.local.php
+bin/.phpunit
