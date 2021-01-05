@@ -1,7 +1,15 @@
 <?= $helper->getHeadPrintCode($entity_class_name.' index'); ?>
 
+{% block title %}<?= $entity_class_name ?>s{{ parent() }}{% endblock %}
+
 {% block body %}
-    <h1><?= $entity_class_name ?> index</h1>
+    <h1><?= $entity_class_name ?>s</h1>
+
+    <div class="row mb-3">
+        <div class="col-12 d-flex justify-content-between">
+            <a class="btn btn-primary" href="{{ path('<?= $route_name ?>_new') }}">Create new</a>
+        </div>
+    </div>
 
     <table class="table">
         <thead>
@@ -31,5 +39,5 @@
         </tbody>
     </table>
 
-    <a href="{{ path('<?= $route_name ?>_new') }}">Create new</a>
+
 {% endblock %}
