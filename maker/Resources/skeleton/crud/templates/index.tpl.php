@@ -23,18 +23,19 @@
                 <tbody>
                 {% for <?= $entity_twig_var_singular ?> in pager.currentPageResults %}
                     <tr>
+
+                        <?php  dd($col) ?>
+
 <?php foreach ($entity_fields as $col => $field): ?>
-
 <?php if ($col === 0): ?>
-        <td>
-            <a href="{{ path('<?= $route_name ?>_show', {'<?= $entity_identifier ?>': <?= $entity_twig_var_singular ?>.<?= $entity_identifier ?>}) }}">
-                {{ <?= $helper->getEntityFieldPrintCode($entity_twig_var_singular, $field) ?> }}
-            </a>
-        </td>
+                        <td>
+                            <a href="{{ path('<?= $route_name ?>_show', {'<?= $entity_identifier ?>': <?= $entity_twig_var_singular ?>.<?= $entity_identifier ?>}) }}">
+                                {{ <?= $helper->getEntityFieldPrintCode($entity_twig_var_singular, $field) ?> }}
+                            </a>
+                        </td>
     <?php else: ?>
-        <td>{{ <?= $helper->getEntityFieldPrintCode($entity_twig_var_singular, $field) ?> }}</td>
+                        <td>{{ <?= $helper->getEntityFieldPrintCode($entity_twig_var_singular, $field) ?> }}</td>
 <?php endif; ?>
-
 <?php endforeach; ?>
                         <td>
                             <a href="{{ path('<?= $route_name ?>_edit', {'<?= $entity_identifier ?>': <?= $entity_twig_var_singular ?>.<?= $entity_identifier ?>}) }}" class="btn btn-outline-primary">
