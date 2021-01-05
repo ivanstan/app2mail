@@ -1,7 +1,5 @@
 <?= $helper->getHeadPrintCode($entity_class_name.' index'); ?>
 
-{% block title %}<?= $entity_class_name ?>s{{ parent() }}{% endblock %}
-
 {% block body %}
     <h1><?= $entity_class_name ?>s</h1>
 

@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Submission index{% endblock %}
+
+{% block title %}Submissions{{ parent() }}{% endblock %}
+
+{% block body %}
+    <h1>Submissions</h1>
+
+    <div class="row mb-3">
+        <div class="col-12 d-flex justify-content-between">
+            <a class="btn btn-primary" href="{{ path('submission_new') }}">Create new</a>
+        </div>
+    </div>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Created</th>
+                <th>Data</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for submission in submissions %}
+            <tr>
+                <td>{{ submission.id }}</td>
+                <td>{{ submission.created }}</td>
+                <td>{{ submission.data ? submission.data|json_encode : '' }}</td>
+                <td>
+                    <a href="{{ path('submission_show', {'id': submission.id}) }}">show</a>
+                    <a href="{{ path('submission_edit', {'id': submission.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+
+{% endblock %}
