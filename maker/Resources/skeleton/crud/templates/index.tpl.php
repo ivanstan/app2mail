@@ -37,7 +37,7 @@
 
 <?php endforeach; ?>
                         <td>
-                            <a href="{{ path('<?= $route_name ?>_edit', {'<?= $entity_identifier ?>': <?= $entity_twig_var_singular ?>.<?= $entity_identifier ?>}) }}" class="btn btn-outline-danger">
+                            <a href="{{ path('<?= $route_name ?>_edit', {'<?= $entity_identifier ?>': <?= $entity_twig_var_singular ?>.<?= $entity_identifier ?>}) }}" class="btn btn-outline-primary">
                                 <i class="fas fa-edit" aria-hidden="true"></i>
                             </a>
                         </td>

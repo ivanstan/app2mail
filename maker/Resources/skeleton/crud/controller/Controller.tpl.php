@@ -52,7 +52,7 @@ class <?= $class_name ?> extends <?= $parent_class_name; ?><?= "\n" ?>
     #[Route('/{<?= $entity_identifier ?>}', name: '<?= $route_name ?>_show', methods: ['GET'], requirements: ['<?= $entity_identifier ?>' => '\d+'])]
 <?php } else { ?>
     /**
-     * @Route("/{<?= $entity_identifier ?>}", name="<?= $route_name ?>_show", methods={"GET", requirements={"<?= $entity_identifier ?>"="\d+"}})
+     * @Route("/{<?= $entity_identifier ?>}", name="<?= $route_name ?>_show", methods={"GET"}, requirements={"<?= $entity_identifier ?>"="\d+"})
      */
 <?php } ?>
     public function show(<?= $entity_class_name ?> $<?= $entity_var_singular ?>): Response
