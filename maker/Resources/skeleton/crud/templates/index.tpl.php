@@ -51,6 +51,8 @@
                 {% endfor %}
                 </tbody>
             </table>
+
+            {% include 'components/pager.html.twig' with {pager: pager} only %}
         </div>
     </div>
 {% endblock %}

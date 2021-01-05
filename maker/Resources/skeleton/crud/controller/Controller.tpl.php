@@ -7,6 +7,8 @@ use <?= $form_full_class_name ?>;
 <?php if (isset($repository_full_class_name)): ?>
 use <?= $repository_full_class_name ?>;
 <?php endif ?>
+use Pagerfanta\Adapter\ArrayAdapter;
+use Pagerfanta\Pagerfanta;
 use Symfony\Bundle\FrameworkBundle\Controller\<?= $parent_class_name ?>;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -29,7 +31,7 @@ class <?= $class_name ?> extends <?= $parent_class_name; ?><?= "\n" ?>
      */
 <?php } ?>
 <?php if (isset($repository_full_class_name)): ?>
-    public function index(<?= $repository_class_name ?> $repository): Response
+    public function index(Request $request, <?= $repository_class_name ?> $repository): Response
     {
         $<?= $entity_var_plural ?> = $repository->findAll();
 
