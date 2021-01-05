@@ -38,9 +38,22 @@ class DefaultController extends AbstractController
         $dispatcher->dispatch(new SubmissionEvent($submission), SubmissionEvent::NAME);
 
         return new RedirectResponse(
-            $redirect, Response::HTTP_FOUND, [
-                         'Access-Control-Allow-Origin' => '*',
-                     ]
+            $redirect,
+            Response::HTTP_FOUND, [
+                'Access-Control-Allow-Origin' => '*',
+            ]
         );
+    }
+
+    /**
+     * @Route("/", name="index")
+     */
+    public function default(): Response
+    {
+        if ($this->getUser() !== null) {
+            return $this->forward(AdminController::class . '::default');
+        }
+
+        return $this->forward(SecurityController::class . '::login');
     }
 }

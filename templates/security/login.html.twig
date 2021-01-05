@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Login{{ parent() }}{% endblock %}
+
+{% block body %}
+    <iframe
+            class="d-block mx-auto"
+            height="270"
+            width="500"
+            frameborder="0"
+            style="overflow:hidden; width: 500px; position: relative; top: 50%; transform: translateY(-50%);"
+            scrolling="no"
+            sandbox="allow-forms allow-same-origin allow-top-navigation allow-top-navigation-by-user-activation allow-scripts"
+            src="//iam.ivanstanojevic.me/auth/1c725a47-460c-4f71-81ee-0a30f28b4e41/login"
+    ></iframe>
+{% endblock %}
