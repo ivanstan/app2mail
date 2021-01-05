@@ -21,7 +21,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                {% for <?= $entity_twig_var_singular ?> in <?= $entity_twig_var_plural ?> %}
+                {% for <?= $entity_twig_var_singular ?> in pager.currentPageResults %}
                     <tr>
 <?php foreach ($entity_fields as $col => $field): ?>
 

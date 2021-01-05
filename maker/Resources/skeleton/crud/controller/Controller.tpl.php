@@ -29,21 +29,29 @@ class <?= $class_name ?> extends <?= $parent_class_name; ?><?= "\n" ?>
      */
 <?php } ?>
 <?php if (isset($repository_full_class_name)): ?>
-    public function index(<?= $repository_class_name ?> $<?= $repository_var ?>): Response
+    public function index(<?= $repository_class_name ?> $repository): Response
     {
+        $<?= $entity_var_plural ?> = $repository->findAll();
+
+        $pager = new Pagerfanta(new ArrayAdapter($<?= $entity_var_plural ?>));
+        $pager->setCurrentPage($request->query->get('page', 1));
+
         return $this->render('<?= $templates_path ?>/index.html.twig', [
-            '<?= $entity_twig_var_plural ?>' => $<?= $repository_var ?>->findAll(),
+            'pager' => $pager,
         ]);
     }
 <?php else: ?>
-    public function index(): Response
+    public function index(Request $request): Response
     {
         $<?= $entity_var_plural ?> = $this->getDoctrine()
             ->getRepository(<?= $entity_class_name ?>::class)
             ->findAll();
 
+        $pager = new Pagerfanta(new ArrayAdapter($<?= $entity_var_plural ?>));
+        $pager->setCurrentPage($request->query->get('page', 1));
+
         return $this->render('<?= $templates_path ?>/index.html.twig', [
-            '<?= $entity_twig_var_plural ?>' => $<?= $entity_var_plural ?>,
+            'pager' => $pager,
         ]);
     }
 <?php endif ?>
