@@ -16,6 +16,13 @@ class ApplicationFixtures extends Fixture
             ->setName(self::APP_NAME);
 
         $manager->persist($application);
+
+
+        for($i = 0; $i < 50; $i++) {
+            $application = (new Application())->setName('Application ' . $i);
+            $manager->persist($application);
+        }
+
         $manager->flush();
     }
 }
