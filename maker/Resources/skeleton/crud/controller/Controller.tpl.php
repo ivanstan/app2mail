@@ -7,6 +7,8 @@ use <?= $form_full_class_name ?>;
 <?php if (isset($repository_full_class_name)): ?>
 use <?= $repository_full_class_name ?>;
 <?php endif ?>
+use Pagerfanta\Adapter\ArrayAdapter;
+use Pagerfanta\Pagerfanta;
 use Symfony\Bundle\FrameworkBundle\Controller\<?= $parent_class_name ?>;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -29,30 +31,38 @@ class <?= $class_name ?> extends <?= $parent_class_name; ?><?= "\n" ?>
      */
 <?php } ?>
 <?php if (isset($repository_full_class_name)): ?>
-    public function index(<?= $repository_class_name ?> $<?= $repository_var ?>): Response
+    public function index(Request $request, <?= $repository_class_name ?> $repository): Response
     {
+        $<?= $entity_var_plural ?> = $repository->findAll();
+
+        $pager = new Pagerfanta(new ArrayAdapter($<?= $entity_var_plural ?>));
+        $pager->setCurrentPage($request->query->get('page', 1));
+
         return $this->render('<?= $templates_path ?>/index.html.twig', [
-            '<?= $entity_twig_var_plural ?>' => $<?= $repository_var ?>->findAll(),
+            'pager' => $pager,
         ]);
     }
 <?php else: ?>
-    public function index(): Response
+    public function index(Request $request): Response
     {
         $<?= $entity_var_plural ?> = $this->getDoctrine()
             ->getRepository(<?= $entity_class_name ?>::class)
             ->findAll();
 
+        $pager = new Pagerfanta(new ArrayAdapter($<?= $entity_var_plural ?>));
+        $pager->setCurrentPage($request->query->get('page', 1));
+
         return $this->render('<?= $templates_path ?>/index.html.twig', [
-            '<?= $entity_twig_var_plural ?>' => $<?= $entity_var_plural ?>,
+            'pager' => $pager,
         ]);
     }
 <?php endif ?>
 
 <?php if ($use_attributes) { ?>
-    #[Route('/{<?= $entity_identifier ?>}', name: '<?= $route_name ?>_show', methods: ['GET'])]
+    #[Route('/{<?= $entity_identifier ?>}', name: '<?= $route_name ?>_show', methods: ['GET'], requirements: ['<?= $entity_identifier ?>' => '\d+'])]
 <?php } else { ?>
     /**
-     * @Route("/{<?= $entity_identifier ?>}", name="<?= $route_name ?>_show", methods={"GET"})
+     * @Route("/{<?= $entity_identifier ?>}", name="<?= $route_name ?>_show", methods={"GET"}, requirements={"<?= $entity_identifier ?>"="\d+"})
      */
 <?php } ?>
     public function show(<?= $entity_class_name ?> $<?= $entity_var_singular ?>): Response
@@ -64,11 +74,11 @@ class <?= $class_name ?> extends <?= $parent_class_name; ?><?= "\n" ?>
 
 <?php if ($use_attributes) { ?>
     #[Route('/new', name: '<?= $route_name ?>_new', methods: ['GET', 'POST'])]
-    #[Route('/{<?= $entity_identifier ?>}/edit', name: '<?= $route_name ?>_edit', methods: ['GET', 'POST'])]
+    #[Route('/{<?= $entity_identifier ?>}/edit', name: '<?= $route_name ?>_edit', methods: ['GET', 'POST'], requirements: ['<?= $entity_identifier ?>' => '\d+'])]
 <?php } else { ?>
     /**
      * @Route("/new", name="<?= $route_name ?>_new", methods={"GET","POST"})
-     * @Route("/{<?= $entity_identifier ?>}/edit", name="<?= $route_name ?>_edit", methods={"GET","POST"})
+     * @Route("/{<?= $entity_identifier ?>}/edit", name="<?= $route_name ?>_edit", methods={"GET","POST"}, requirements={"<?= $entity_identifier ?>"="\d+"})
      */
 <?php } ?>
     public function edit(Request $request, ?<?= $entity_class_name ?> $<?= $entity_var_singular ?>): Response
@@ -97,10 +107,10 @@ class <?= $class_name ?> extends <?= $parent_class_name; ?><?= "\n" ?>
     }
 
 <?php if ($use_attributes) { ?>
-    #[Route('/{<?= $entity_identifier ?>}', name: '<?= $route_name ?>_delete', methods: ['DELETE'])]
+    #[Route('/{<?= $entity_identifier ?>}', name: '<?= $route_name ?>_delete', methods: ['DELETE'], requirements: ['<?= $entity_identifier ?>' => '\d+'])]
 <?php } else { ?>
     /**
-     * @Route("/{<?= $entity_identifier ?>}", name="<?= $route_name ?>_delete", methods={"DELETE"})
+     * @Route("/{<?= $entity_identifier ?>}", name="<?= $route_name ?>_delete", methods={"DELETE"}, requirements={"<?= $entity_identifier ?>"="\d+"})
      */
 <?php } ?>
     public function delete(Request $request, <?= $entity_class_name ?> $<?= $entity_var_singular ?>): Response
