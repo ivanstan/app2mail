@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Application index{% endblock %}
+
+{% block body %}
+    {% include 'components/navigation.html.twig' %}
+    <div class="container-fluid mt-3">
+        <div class="row mb-3">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>UUID</th>
+{#                        <th>Email</th>#}
+
+                    </tr>
+                </thead>
+                <tbody>
+                {% for application in pager.currentPageResults %}
+                    <tr>
+                        <td>
+                            <a href="{{ path('application_show', {'uuid': application.uuid}) }}">
+                                {{ application.name }}
+                            </a>
+                        </td>
+                        <td class="d-none d-sm-table-cell">{{ application.uuid }}</td>
+                        <td class="d-none d-sm-table-cell">
+{#                            {{ application.email }}#}
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td class="text-center" colspan="4">
+                            no records found
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+
+            {% include 'components/pager.html.twig' with {pager: pager} only %}
+        </div>
+    </div>
+{% endblock %}

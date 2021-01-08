@@ -13,7 +13,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class SecurityController extends AbstractController
 {
-    private const LOGIN_REDIRECT_ROUTE = 'admin_default';
+    private const LOGIN_REDIRECT_ROUTE = 'application_index';
     private const LOGOUT_REDIRECT_ROUTE = 'security_login';
 
     /**

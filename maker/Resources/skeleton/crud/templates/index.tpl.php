@@ -1,7 +1,7 @@
 <?= $helper->getHeadPrintCode($entity_class_name.' index'); ?>
 
 {% block body %}
-    <div class="container-fluid mt-3">
+    <div class="container-fluid mt-3 mx-3">
         <h1><?= $entity_class_name ?>s</h1>
 
         <div class="row mb-3">
