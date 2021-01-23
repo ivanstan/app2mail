@@ -11,7 +11,7 @@ set('http_user', 'glutenfr');
 set('writable_mode', 'chmod');
 set('default_stage', 'production');
 add('shared_files', ['.env']);
-add('shared_dirs', ['var']);
+add('shared_dirs', ['var', 'config/secrets']);
 add('writable_dirs', []);
 
 host('ivanstanojevic.me')
