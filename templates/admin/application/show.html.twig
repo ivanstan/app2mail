@@ -6,37 +6,42 @@
     {% include 'components/navigation.html.twig' %}
     <div class="container-fluid mt-3">
         <div class="row mb-3">
-            <table class="table">
-                <thead>
-                <tr>
-                    <td style="width: 33%">Created</td>
-                    <td>Data</td>
-                </tr>
-                </thead>
-                <tbody>
-                {% for submission in pager.currentPageResults %}
+            <div class="col-12">
+                <table class="table">
+                    <thead>
                     <tr>
-                        <td>
-                            {{ submission.created }}
-                        </td>
-                        <td>
-                            <table>
-                                {% for field, value in submission.data %}
-                                    <tr>
-                                        <td>
-                                            {{ field }}
-                                        </td>
-                                        <td>
-                                            {{ value }}
-                                        </td>
-                                    </tr>
-                                {% endfor %}
-                            </table>
-                        </td>
+                        <td style="width: 200px">Created</td>
+                        <td style="width: calc(100% - 260px)">Data</td>
+                        <td style="width: 40px"></td>
                     </tr>
-                {% endfor %}
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                    {% for submission in pager.currentPageResults %}
+                        <tr>
+                            <td>
+                                {{ submission.created|date }}
+                            </td>
+                            <td>
+                                {% include 'admin/application/iterable.html.twig' with {data: submission.data} only %}
+                            </td>
+                            <td>
+                                <form
+                                        class="form-confirmation"
+                                        action="{{ path('submission_delete', {submission: submission.id}) }}"
+                                        method="POST"
+                                >
+                                    <input type="hidden" name="_token"
+                                           value="{{ csrf_token('delete_' ~ submission.id) }}">
+                                    <button type="submit" class="btn btn-outline-danger">
+                                        <i class="far fa-trash-alt"></i>
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
             {% include 'components/pager.html.twig' with {pager: pager} only %}
         </div>
     </div>

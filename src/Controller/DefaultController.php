@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Controller\Admin\ApplicationController;
 use App\Entity\Application;
 use App\Entity\Submission;
 use App\Event\SubmissionEvent;
@@ -45,13 +46,11 @@ class DefaultController extends AbstractController
         );
     }
 
-    /**
-     * @Route("/", name="index")
-     */
+    #[Route('/', name: "index")]
     public function default(): Response
     {
         if ($this->getUser() !== null) {
-            return $this->forward(AdminController::class . '::default');
+            return $this->redirect($this->generateUrl('application_index'));
         }
 
         return $this->forward(SecurityController::class . '::login');

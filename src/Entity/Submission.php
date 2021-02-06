@@ -86,7 +86,9 @@ class Submission
 
     public function setData(array $data): self
     {
-        $this->data = array_map('trim', $data);
+        array_walk_recursive($data, static function($item){return trim($item);});
+
+        $this->data = $data;
 
         return $this;
     }

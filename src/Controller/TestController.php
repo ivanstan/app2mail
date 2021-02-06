@@ -25,9 +25,7 @@ class TestController extends AbstractController
         return $this->render(MailNotificationSubscriber::TEMPLATE, ['submission' => $submission]);
     }
 
-    /**
-     * @Route("/application", name="test_application")
-     */
+    #[Route('/application', name: 'test_application')]
     public function application(): Response
     {
         $application = $this->getDoctrine()->getRepository(Application::class)->findBy(

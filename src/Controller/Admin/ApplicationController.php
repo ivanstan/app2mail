@@ -12,19 +12,13 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-/**
- * @Route("/admin/application")
- */
+#[Route('/admin/application')]
 class ApplicationController extends AbstractController
 {
-    /**
-     * @Route("/", name="application_index", methods={"GET"})
-     */
+    #[Route('/', name: "application_index", methods: ["GET"])]
     public function index(Request $request, ApplicationRepository $repository): Response
     {
-        $applications = $repository->findAll();
-
-        $pager = new Pagerfanta(new ArrayAdapter($applications));
+        $pager = new Pagerfanta(new ArrayAdapter($repository->findAll()));
         $pager->setCurrentPage($request->query->get('page', 1));
 
         return $this->render(
@@ -35,14 +29,10 @@ class ApplicationController extends AbstractController
         );
     }
 
-    /**
-     * @Route("/{uuid}", name="application_show", methods={"GET"})
-     */
+    #[Route('/{uuid}', name: "application_show", methods: ['GET'])]
     public function show(Request $request, Application $application, SubmissionRepository $repository): Response
     {
-        $submissions = $repository->findAll();
-
-        $pager = new Pagerfanta(new ArrayAdapter($submissions));
+        $pager = new Pagerfanta(new ArrayAdapter($repository->findBy(['application' => $application->getUuid()])));
         $pager->setCurrentPage($request->query->get('page', 1));
 
         return $this->render(
