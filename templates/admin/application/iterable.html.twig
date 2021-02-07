@@ -1,16 +1,14 @@
-<table class="w-100">
-    {% for field, value in data %}
-        <tr>
-            <td class="font-weight-bold">
-                {{ field }}
-            </td>
-            <td>
-                {% if value is iterable %}
-                    {% include 'admin/application/iterable.html.twig' with {data: value} only %}
-                {% else %}
-                    {{ value }}
-                {% endif %}
-            </td>
-        </tr>
-    {% endfor %}
-</table>
+{% for field, value in data %}
+    <div class="d-flex">
+        <div class="font-weight-bold">
+            {{ field }}:
+        </div>
+        <div class="px-3">
+            {% if value is iterable %}
+                {% include 'admin/application/iterable.html.twig' with {data: value} only %}
+            {% else %}
+                {{ value }}
+            {% endif %}
+        </div>
+    </div>
+{% endfor %}

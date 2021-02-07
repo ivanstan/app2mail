@@ -19,9 +19,9 @@
                     {% for submission in pager.currentPageResults %}
                         <tr>
                             <td>
-                                {{ submission.created|date }}
+                                {{ submission.created|date('d-m-Y H:i') }}
                             </td>
-                            <td>
+                            <td style="font-family: 'Source Code Pro', 'SFMono-Regular', Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace">
                                 {% include 'admin/application/iterable.html.twig' with {data: submission.data} only %}
                             </td>
                             <td>
