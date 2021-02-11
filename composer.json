@@ -21,6 +21,7 @@
         "symfony/form": "5.2.*",
         "symfony/framework-bundle": "5.2.*",
         "symfony/mailer": "5.2.*",
+        "symfony/monolog-bundle": "^3.6",
         "symfony/security-bundle": "5.2.*",
         "symfony/twig-bundle": "5.2.*",
         "symfony/validator": "5.2.*",
@@ -28,7 +29,6 @@
         "twig/extra-bundle": "^2.12|^3.0",
         "twig/twig": "^2.12|^3.0"
     },
-    "require-dev": {},
     "config": {
         "optimize-autoloader": true,
         "preferred-install": {

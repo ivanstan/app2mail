@@ -36,8 +36,8 @@ task('deploy:vendors', function () {
     run('cd {{release_path}} && {{bin/composer}} {{composer_action}} {{composer_options}} 2>&1');
 });
 
-task('dump-autoload', function () {
-    run('composer dump-env prod');
+task('deploy:dump-env', function () {
+    run('cd {{release_path}} && {{bin/composer}} dump-env prod');
 });
 
 task('deploy', [
@@ -53,7 +53,7 @@ task('deploy', [
     'deploy:vendors',
     'deploy:cache:clear',
     'deploy:cache:warmup',
-    'dump-autoload',
+    'deploy:dump-env',
     'deploy:writable',
     'database:migrate',
     'deploy:symlink',
