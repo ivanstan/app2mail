@@ -14,6 +14,10 @@ add('shared_files', ['.env']);
 add('shared_dirs', ['var', 'config/secrets']);
 add('writable_dirs', []);
 
+set('composer_options', '--verbose --prefer-dist --no-progress --no-interaction --no-dev --optimize-autoloader');
+set('composer_action', 'install');
+set('bin/composer', '~/bin/composer.phar');
+
 host('ivanstanojevic.me')
     ->user('glutenfr')
     ->port(2233)
@@ -23,6 +27,13 @@ host('ivanstanojevic.me')
 task('test', function () {
     set('symfony_env', 'dev');
 //    runLocally('bin/phpunit');
+});
+
+task('deploy:vendors', function () {
+    if (!commandExist('unzip')) {
+        warning('To speed up composer installation setup "unzip" command with PHP zip extension.');
+    }
+    run('cd {{release_path}} && {{bin/composer}} {{composer_action}} {{composer_options}} 2>&1');
 });
 
 task('dump-autoload', function () {
