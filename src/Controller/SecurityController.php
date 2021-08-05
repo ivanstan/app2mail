@@ -11,14 +11,12 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class SecurityController extends AbstractController
+final class SecurityController extends AbstractController
 {
     private const LOGIN_REDIRECT_ROUTE = 'application_index';
     private const LOGOUT_REDIRECT_ROUTE = 'security_login';
 
-    /**
-     * @Route("/authorize", name="security_authorize")
-     */
+    #[Route('/authorize', name: 'security_authorize')]
     public function authorize(Request $request, UserProvider $provider): Response
     {
         $token = $request->get(TokenAuthenticator::COOKIE_NAME);
@@ -38,9 +36,7 @@ class SecurityController extends AbstractController
         return $response;
     }
 
-    /**
-     * @Route("/login", name="security_login")
-     */
+    #[Route('/login', name: 'security_login')]
     public function login(): Response
     {
         if ($this->getUser() !== null) {
@@ -50,9 +46,7 @@ class SecurityController extends AbstractController
         return $this->render('security/login.html.twig');
     }
 
-    /**
-     * @Route("/logout", name="security_logout")
-     */
+    #[Route('/logout', name: 'security_logout')]
     public function logout(): RedirectResponse
     {
         $response = $this->redirect($this->generateUrl(self::LOGOUT_REDIRECT_ROUTE));

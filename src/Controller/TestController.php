@@ -11,10 +11,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-/**
- * @Route("/test", condition="'dev' === '%kernel.environment%'")
- */
-class TestController extends AbstractController
+#[Route('/test', condition: "'dev' === '%kernel.environment%'")]
+final class TestController extends AbstractController
 {
     /**
      * @Route("/submission/{submission}", name="test_submission")

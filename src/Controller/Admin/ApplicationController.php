@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 #[Route('/admin/application')]
-class ApplicationController extends AbstractController
+final class ApplicationController extends AbstractController
 {
     #[Route('/', name: "application_index", methods: ["GET"])]
     public function index(Request $request, ApplicationRepository $repository): Response

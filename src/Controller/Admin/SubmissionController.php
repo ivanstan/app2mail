@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 #[Route('/admin/submission')]
-class SubmissionController extends AbstractController
+final class SubmissionController extends AbstractController
 {
     #[Route('/{submission}/delete', name: "submission_delete", methods: ["POST"])]
     public function delete(Submission $submission, Request $request): RedirectResponse {

@@ -5,46 +5,31 @@ namespace App\Entity;
 use App\Repository\SubmissionRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Entity(repositoryClass=SubmissionRepository::class)
- * @ORM\HasLifecycleCallbacks()
- */
+#[ORM\Entity(repositoryClass: SubmissionRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class Submission
 {
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'integer')]
     private ?int $id;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Application::class)
-     * @ORM\JoinColumn(nullable=false, referencedColumnName="uuid")
-     */
+    #[ORM\ManyToOne(targetEntity: Application::class)]
+    #[ORM\JoinColumn(referencedColumnName: 'uuid', nullable: false)]
     private Application $application;
 
-    /**
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Column(type: 'integer', nullable: true)]
     private $created;
 
-    /**
-     * @ORM\Column(type="json", nullable=true)
-     */
+    #[ORM\Column(type: 'json', nullable: true)]
     private array $data = [];
 
-    /**
-     * @param Application $application
-     */
     public function __construct(Application $application)
     {
         $this->application = $application;
     }
 
-    /**
-     * @ORM\PrePersist()
-     */
+    #[ORM\PrePersist]
     public function perPersist(): void
     {
         $this->created = time();

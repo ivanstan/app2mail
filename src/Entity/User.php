@@ -59,4 +59,9 @@ class User implements UserInterface
     {
         $this->roles = $roles;
     }
+
+    public function getUserIdentifier(): string
+    {
+        return $this->email;
+    }
 }

@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-use App\Controller\Admin\ApplicationController;
 use App\Entity\Application;
 use App\Entity\Submission;
 use App\Event\SubmissionEvent;
@@ -14,7 +13,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class DefaultController extends AbstractController
+final class DefaultController extends AbstractController
 {
     /**
      * Accepts post data from application.

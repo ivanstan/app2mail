@@ -4,28 +4,18 @@ namespace App\Command;
 
 use App\Entity\Application;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
-class ApplicaionCreateCommand extends Command
+#[AsCommand(name: 'application:create', description: 'Creates new application')]
+final class ApplicationCreateCommand extends Command
 {
-    protected static $defaultName = 'application:create';
-
-    protected EntityManagerInterface $em;
-
-    public function __construct(EntityManagerInterface $em)
+    public function __construct(protected EntityManagerInterface $em)
     {
         parent::__construct();
-        $this->em = $em;
-    }
-
-
-    protected function configure()
-    {
-        $this
-            ->setDescription('Creates new application');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
