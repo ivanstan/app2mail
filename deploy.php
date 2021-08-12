@@ -25,8 +25,8 @@ host('ivanstanojevic.me')
     ->set('deploy_path', '~/projects/app2mail.ivanstanojevic.me');
 
 task('test', function () {
-    set('symfony_env', 'dev');
-//    runLocally('bin/phpunit');
+    set('symfony_env', 'test');
+    runLocally('bin/phpunit');
 });
 
 task('deploy:vendors', function () {
@@ -40,6 +40,10 @@ task('deploy:dump-env', function () {
     run('cd {{release_path}} && {{bin/composer}} dump-env prod');
 });
 
+task('deploy:executable', function () {
+    run('chmod +x {{release_path}}/bin/console');
+});
+
 task('deploy', [
     'deploy:info',
     'deploy:prepare',
@@ -51,6 +55,7 @@ task('deploy', [
     'deploy:shared',
     'deploy:assets',
     'deploy:vendors',
+    'deploy:executable',
     'deploy:cache:clear',
     'deploy:cache:warmup',
     'deploy:dump-env',
